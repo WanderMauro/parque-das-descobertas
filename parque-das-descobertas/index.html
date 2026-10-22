@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parque das Descobertas</title>
+  <!-- Estilos do jogo -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!--
+    PALCO (#jogo): caixa 16:9 que se ajusta à janela.
+    Dentro dele ficam as TELAS. Só uma tela fica visível por vez (classe "ativa").
+
+    COMO FUNCIONAM OS BOTÕES INVISÍVEIS (.hotspot):
+    - style="--x; --y; --w; --h" = posição e tamanho em % da imagem
+        --x = distância da esquerda | --y = distância do topo
+        --w = largura               | --h = altura
+    - data-ir="id-da-tela" -> ao clicar, vai para essa tela
+    - data-acao="som" / "inicio" -> ações globais (ligar/desligar som, voltar ao início)
+    - data-resposta="certa|errada" -> usado nas fases de quiz
+    DICA: aperte a tecla "D" no jogo para ver os botões invisíveis (modo debug).
+  -->
+  <main id="jogo">
+
+    <!-- ================= TELA 1: INÍCIO ================= -->
+    <section class="tela ativa" id="tela-inicio">
+      <img class="fundo" src="assets/img/telas/tela1-inicio.png" alt="Tela inicial do Parque das Descobertas">
+
+      <!-- Botão JOGAR -> tela de modos -->
+      <button class="hotspot" style="--x:42.3; --y:59.5; --w:17.9; --h:9"
+              data-ir="tela-modos" aria-label="Jogar"></button>
+
+      <!-- Botão BILHETERIA (ainda sem função) -->
+      <button class="hotspot" style="--x:45.3; --y:69.6; --w:11.1; --h:5.2"
+              data-ir="tela-bilheteira" aria-label="Bilheteira"></button>
+
+      <!-- Botões fixos: casa e som -->
+      <button class="hotspot" style="--x:2; --y:0.5; --w:4.8; --h:8" data-acao="inicio" aria-label="Início"></button>
+      <button class="hotspot" style="--x:95.6; --y:0.5; --w:4.4; --h:8" data-acao="som" aria-label="Som"></button>
+    </section>
+
+    <!-- ================= TELA 2: ESCOLHA DO MODO ================= -->
+    <section class="tela" id="tela-modos">
+      <img class="fundo" src="assets/img/telas/tela2-modos.png" alt="Escolha de nível">
+
+      <!-- FÁCIL -> primeira fase fácil (maçãs) -->
+      <button class="hotspot" style="--x:11; --y:46; --w:24.1; --h:48.7"
+              data-ir="tela-facil-1" aria-label="Modo fácil"></button>
+
+      <!-- MÉDIO -> (tela a ser criada) -->
+      <button class="hotspot" style="--x:38.1; --y:46; --w:24.3; --h:48.7"
+              data-ir="tela-medio-1" aria-label="Modo médio"></button>
+
+      <!-- DIFÍCIL -> (tela a ser criada) -->
+      <button class="hotspot" style="--x:65.2; --y:46; --w:24.3; --h:48.7"
+              data-ir="tela-dificil-1" aria-label="Modo difícil"></button>
+
+      <button class="hotspot" style="--x:2.8; --y:1; --w:4.3; --h:7" data-acao="inicio" aria-label="Início"></button>
+      <button class="hotspot" style="--x:93.6; --y:1; --w:4.3; --h:7" data-acao="som" aria-label="Som"></button>
+    </section>
+
+    <!-- ================= TELA 3: FÁCIL - FASE 1 (MAÇÃS) ================= -->
+    <section class="tela" id="tela-facil-1">
+      <img class="fundo" src="assets/img/telas/tela3-facil-macas.png" alt="Qual prato tem mais maçãs?">
+
+      <!-- Prato da ESQUERDA (1 maçã) = ERRADO -->
+      <button class="hotspot" style="--x:17.4; --y:43.8; --w:31.8; --h:43.8"
+              data-resposta="errada" aria-label="Prato da esquerda"></button>
+
+      <!-- Prato da DIREITA (2 maçãs) = CERTO -> vai para a fase 2 -->
+      <button class="hotspot" style="--x:51.3; --y:43.8; --w:31.8; --h:43.8"
+              data-resposta="certa" data-proxima="tela-facil-2" aria-label="Prato da direita"></button>
+
+      <!-- Botão de áudio da pergunta (futuro: narração do enunciado) -->
+      <button class="hotspot" style="--x:17.1; --y:30.9; --w:3.9; --h:6.9"
+              data-acao="narrar" aria-label="Ouvir pergunta"></button>
+
+      <button class="hotspot" style="--x:2.8; --y:1.3; --w:4.3; --h:7.3" data-acao="inicio" aria-label="Início"></button>
+      <button class="hotspot" style="--x:92.1; --y:1.3; --w:4.3; --h:7.3" data-acao="som" aria-label="Som"></button>
+    </section>
+
+    <!-- ================= TELA 4: FÁCIL - FASE 2 (JOGO DA MARMOTA) ================= -->
+    <section class="tela" id="tela-facil-2">
+      <img class="fundo" src="assets/img/telas/tela4-facil-marmota.png" alt="Acerte o animal que rima com PATO">
+
+      <!-- Pergunta: qual animal rima com PATO? Resposta certa = GATO -->
+      <!-- Buraco 1: GATO (certo) -->
+      <button class="hotspot" style="--x:16.8; --y:45; --w:21.4; --h:31.8"
+              data-resposta="certa" data-proxima="tela-facil-3" aria-label="Gato"></button>
+      <!-- Buraco 2: URSO (errado) -->
+      <button class="hotspot" style="--x:39.4; --y:45; --w:21.4; --h:31.8"
+              data-resposta="errada" aria-label="Urso"></button>
+      <!-- Buraco 3: ZEBRA (errado) -->
+      <button class="hotspot" style="--x:61.9; --y:45; --w:21.4; --h:31.8"
+              data-resposta="errada" aria-label="Zebra"></button>
+
+      <button class="hotspot" style="--x:2.8; --y:1.3; --w:4.3; --h:7.3" data-acao="inicio" aria-label="Início"></button>
+      <button class="hotspot" style="--x:92.1; --y:1.3; --w:4.3; --h:7.3" data-acao="som" aria-label="Som"></button>
+    </section>
+
+    <!--
+      PARA ADICIONAR UMA NOVA TELA:
+      1) Salve a imagem em assets/img/telas/
+      2) Copie um bloco <section class="tela" id="tela-NOME"> acima
+      3) Troque o src da imagem e ajuste os botões (--x --y --w --h)
+      4) Aponte um botão qualquer para ela com data-ir="tela-NOME"
+    -->
+
+    <!-- Mensagem flutuante (acertou / errou / em construção) -->
+    <div id="mensagem" role="status"></div>
+  </main>
+
+  <!-- Scripts (ordem importa: um depende do outro) -->
+  <script src="js/ui.js"></script>          <!-- mensagens na tela -->
+  <script src="js/audio.js"></script>       <!-- música e som -->
+  <script src="js/navegacao.js"></script>   <!-- troca de telas -->
+  <script src="js/quiz.js"></script>        <!-- lógica de acerto/erro -->
+  <script src="js/main.js"></script>        <!-- liga tudo -->
+</body>
+</html>

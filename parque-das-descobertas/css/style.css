@@ -1,0 +1,105 @@
+/* =========================================================
+   PARQUE DAS DESCOBERTAS - ESTILOS
+   ========================================================= */
+
+/* Remove margens padrão e fundo da página */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #1d2b1f;          /* cor das faixas laterais, caso a janela não seja 16:9 */
+  overflow: hidden;
+}
+
+/* ---------- PALCO ----------
+   Caixa 16:9 centralizada que sempre cabe na janela. */
+#jogo {
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+}
+
+/* ---------- TELAS ----------
+   Todas ficam empilhadas; só a que tem a classe "ativa" aparece. */
+.tela {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+.tela.ativa {
+  display: block;
+  animation: aparecer 0.4s ease;   /* transição suave entre telas */
+}
+@keyframes aparecer {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Imagem de fundo ocupa a tela inteira */
+.fundo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ---------- BOTÕES INVISÍVEIS ----------
+   Posição e tamanho vêm do HTML (--x --y --w --h, em %). */
+.hotspot {
+  position: absolute;
+  left:   calc(var(--x) * 1%);
+  top:    calc(var(--y) * 1%);
+  width:  calc(var(--w) * 1%);
+  height: calc(var(--h) * 1%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Leve brilho ao passar o mouse (ajuda a criança a perceber que é clicável).
+   Para deixar 100% invisível, apague este bloco. */
+.hotspot:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ---------- MODO DEBUG (tecla D) ----------
+   Mostra onde estão os botões invisíveis, para ajustar posição. */
+body.debug .hotspot {
+  outline: 2px dashed red;
+  background: rgba(255, 0, 0, 0.2);
+}
+
+/* ---------- MENSAGEM FLUTUANTE ---------- */
+#mensagem {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  transform: translateX(-50%) translateY(20px);
+  padding: 0.6em 1.4em;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: clamp(14px, 2.2vw, 30px);
+  font-weight: bold;
+  color: #fff;
+  background: #e8692c;           /* laranja do jogo */
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  opacity: 0;
+  pointer-events: none;          /* não atrapalha cliques */
+  transition: opacity .25s, transform .25s;
+  z-index: 50;
+}
+#mensagem.visivel {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+/* Variações de cor da mensagem */
+#mensagem.acerto { background: #4a8f4e; }  /* verde */
+#mensagem.erro   { background: #c0533a; }  /* vermelho */
