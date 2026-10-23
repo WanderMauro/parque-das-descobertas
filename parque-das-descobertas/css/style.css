@@ -46,7 +46,18 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
+  image-rendering: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.titulo-jogo {
+  position: absolute;
+  left: 24%;
+  top: 9%;
+  width: 52%;
+  height: auto;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -64,11 +75,38 @@ html, body {
   cursor: pointer;
   border-radius: 12px;
   -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease;
 }
 
 /* Leve brilho ao passar o mouse (ajuda a criança a perceber que é clicável).
    Para deixar 100% invisível, apague este bloco. */
-.hotspot:hover { background: rgba(255, 255, 255, 0.12); }
+.hotspot:hover {
+  background-color: transparent;
+  transform: scale(1.08) !important;
+}
+
+/* Os ícones de início e som já fazem parte da arte de cada tela. */
+.tela:not(#tela-inicio) .hotspot[data-acao="inicio"],
+.tela:not(#tela-inicio) .hotspot[data-acao="som"] {
+  z-index: 10;
+  border-radius: 0;
+  transition: none;
+}
+
+/* Botões que usam os assets individuais da pasta de imagens. */
+.botao-com-asset {
+  z-index: 10;
+  overflow: visible;
+}
+
+.botao-com-asset img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
 
 /* ---------- MODO DEBUG (tecla D) ----------
    Mostra onde estão os botões invisíveis, para ajustar posição. */
@@ -103,3 +141,570 @@ body.debug .hotspot {
 /* Variações de cor da mensagem */
 #mensagem.acerto { background: #4a8f4e; }  /* verde */
 #mensagem.erro   { background: #c0533a; }  /* vermelho */
+
+/* ---------- FASES DE ARRASTAR E SOLTAR ----------
+   As posições usam a arte 1920 x 1080 do Figma como referência. */
+.tela-arrastar .alvo-caixa,
+.tela-arrastar .item-arrastavel {
+  position: absolute;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.tela-arrastar .alvo-caixa {
+  left: 26.15%;
+  top: 52.13%;
+  width: 21.82%;
+  height: auto;
+  pointer-events: none;
+}
+
+.tela-arrastar .item-arrastavel {
+  touch-action: none;
+  cursor: grab;
+  z-index: 5;
+  transition: filter .2s, transform .2s;
+}
+
+.tela-arrastar .item-arrastavel.arrastando {
+  cursor: grabbing;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .28));
+}
+
+.tela-arrastar .bola {
+  left: 32.71%;
+  top: 54.44%;
+  width: 8.70%;
+  height: 15.19%;
+}
+
+.tela-arrastar .ursinho {
+  left: 61.41%;
+  top: 67.96%;
+  width: 17.29%;
+  height: 20.46%;
+}
+
+.tela-arrastar .item-arrastavel.correto {
+  filter: drop-shadow(0 0 12px rgba(80, 143, 78, .85));
+}
+
+/* ---------- FASE 4: TREM DE PADRÕES ---------- */
+.tela-trem .trem {
+  position: absolute;
+  left: 15.99%;
+  top: 43.43%;
+  width: 67.60%;
+  height: 45%;
+}
+
+.tela-trem .frente-trem {
+  position: absolute;
+  left: 3.08%;
+  top: 35.80%;
+  width: 26.89%;
+  height: 56.79%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.tela-trem .vagao-base {
+  position: absolute;
+  top: 52.88%;
+  width: 14.71%;
+  height: 42.39%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.tela-trem .base-1 { left: 27.66%; }
+.tela-trem .base-2 { left: 40.91%; }
+.tela-trem .base-3 { left: 53.93%; }
+.tela-trem .base-4 { left: 66.56%; }
+
+.tela-trem .vagao,
+.tela-trem .interrogacao {
+  position: absolute;
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1;
+}
+
+.tela-trem .vagao {
+  top: 58.44%;
+  width: 10.05%;
+  aspect-ratio: 1;
+  border: clamp(2px, .2vw, 4px) solid #b78a16;
+  border-radius: 50%;
+  box-shadow: inset 0 3px 4px rgba(255, 255, 255, .35), inset 0 -5px 7px rgba(119, 63, 3, .2);
+  color: transparent;
+  font-size: 0;
+}
+
+.tela-trem .vagao-1 { left: 29.97%; }
+.tela-trem .vagao-2 { left: 43.22%; }
+.tela-trem .vagao-3 { left: 56.24%; }
+.tela-trem .vagao-4 { left: 68.88%; }
+.tela-trem .vagao-1,
+.tela-trem .vagao-3 {
+  background: radial-gradient(circle at 33% 24%, #ff9a92 0 8%, #ee3d43 42%, #bd121b 100%);
+  border-color: #bd171a;
+}
+.tela-trem .vagao-2,
+.tela-trem .vagao-4.completo {
+  background: radial-gradient(circle at 33% 24%, #fff586 0 8%, #ffdf26 46%, #e2a000 100%);
+  border-color: #e3a100;
+}
+.tela-trem .vagao-4 { border: none; box-shadow: none; }
+.tela-trem .interrogacao { left: 47.46%; top: 0; color: #000; font-size: clamp(38px, 6.67vw, 128px); }
+.tela-trem .vagao-4.completo {
+  border: clamp(2px, .2vw, 4px) solid #e3a100;
+  box-shadow: inset 0 3px 4px rgba(255, 255, 255, .35), inset 0 -5px 7px rgba(119, 63, 3, .2);
+  animation: entrar-vagao .35s ease-out;
+}
+
+@keyframes entrar-vagao {
+  from { opacity: 0; transform: scale(.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.opcao-trem {
+  z-index: 10;
+  border: clamp(2px, .2vw, 4px) solid #e3a100;
+  border-radius: 50%;
+  color: transparent;
+  font-size: 0;
+  box-shadow: inset 0 3px 4px rgba(255, 255, 255, .35), inset 0 -5px 7px rgba(119, 63, 3, .2);
+}
+
+.opcao-amarela {
+  background: radial-gradient(circle at 33% 24%, #fff586 0 8%, #ffdf26 46%, #e2a000 100%);
+}
+
+.opcao-vermelha {
+  background: radial-gradient(circle at 33% 24%, #ff9a92 0 8%, #ee3d43 42%, #bd121b 100%);
+  border-color: #bd171a;
+}
+
+.opcao-trem:hover { transform: scale(1.08); }
+.opcao-trem.opcao-amarela:hover {
+  background: radial-gradient(circle at 33% 24%, #fff586 0 8%, #ffdf26 46%, #e2a000 100%);
+}
+.opcao-trem.opcao-vermelha:hover {
+  background: radial-gradient(circle at 33% 24%, #ff9a92 0 8%, #ee3d43 42%, #bd121b 100%);
+}
+
+/* ---------- FASE 5: RASPADINHA ---------- */
+.etiqueta-fase,
+.nivel-fase,
+.titulo-fase,
+.instrucao-fase {
+  position: absolute;
+  z-index: 3;
+  font-family: Arial, sans-serif;
+}
+
+.etiqueta-fase {
+  left: 14.58%;
+  top: 23.70%;
+  width: 14.7%;
+  min-height: 4.15%;
+  display: grid;
+  place-items: center;
+  padding: .3% .7%;
+  border-radius: 8px;
+  background: #d6a16e;
+  box-shadow: 0 3px 5px rgba(69, 43, 20, .28);
+  color: #798331;
+  font-size: clamp(11px, 1.04vw, 20px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nivel-fase {
+  left: 77.60%;
+  top: 23.89%;
+  width: 6.6%;
+  min-height: 4.15%;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #8a572d;
+  box-shadow: 0 3px 5px rgba(69, 43, 20, .28);
+  color: #f5bf7b;
+  font-size: clamp(10px, .84vw, 16px);
+  text-align: center;
+}
+
+.faixa-pergunta {
+  position: absolute;
+  left: 15.0%;
+  top: 28.0%;
+  width: 70%;
+  height: 13.4%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.progresso-fase {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+.progresso-fase.fase-5 {
+  -webkit-mask-image: url("../assets/img/mascara-progresso-5.svg");
+  mask-image: url("../assets/img/mascara-progresso-5.svg");
+}
+
+.progresso-fase.fase-6 {
+  -webkit-mask-image: url("../assets/img/mascara-progresso-6.svg");
+  mask-image: url("../assets/img/mascara-progresso-6.svg");
+}
+
+.progresso-fase.fase-7 {
+  -webkit-mask-image: url("../assets/img/mascara-progresso-7.svg");
+  mask-image: url("../assets/img/mascara-progresso-7.svg");
+}
+
+.progresso-fase.fase-8 {
+  -webkit-mask-image: url("../assets/img/mascara-progresso-8.svg");
+  mask-image: url("../assets/img/mascara-progresso-8.svg");
+}
+
+.progresso-fase.fase-9 {
+  -webkit-mask-image: url("../assets/img/mascara-progresso-9.svg");
+  mask-image: url("../assets/img/mascara-progresso-9.svg");
+}
+
+.icone-progresso {
+  position: absolute;
+  top: 14.63%;
+  width: 3.96%;
+  height: 5.84%;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.icone-progresso.fase-5 { left: 28.23%; }
+.icone-progresso.fase-6 { left: 31.82%; }
+.icone-progresso.fase-7 { left: 35.52%; }
+.icone-progresso.fase-8 { left: 39.27%; }
+.icone-progresso.fase-9 { left: 43.18%; }
+.icone-progresso.fase-10 { left: 46.88%; }
+
+.titulo-fase {
+  left: 16.0%;
+  top: 30.09%;
+  width: 67.6%;
+  color: #e9652a;
+  font-size: clamp(21px, 1.88vw, 36px);
+  text-align: center;
+}
+
+.instrucao-fase {
+  left: 16.0%;
+  top: 35.28%;
+  width: 67.6%;
+  color: #568769;
+  font-size: clamp(12px, 1.04vw, 20px);
+  font-weight: 600;
+  text-align: center;
+}
+
+.quadro-raspadinha,
+.opcoes-silabas {
+  position: absolute;
+  left: 15.94%;
+  top: 43.43%;
+  width: 67.65%;
+  height: 45.06%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.quadro-raspadinha {
+  background: transparent;
+  border-radius: 0;
+}
+
+.gato-raspadinha {
+  position: absolute;
+  left: 35.9%;
+  top: 18.9%;
+  width: 28.2%;
+  z-index: 1;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.canvas-raspadinha {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  z-index: 2;
+  transition: opacity .4s;
+}
+
+/* A cobertura aparece antes mesmo de o JavaScript preparar o canvas. */
+.canvas-raspadinha:not(.preparada) { background: #c76232; }
+.canvas-raspadinha.preparada { background: transparent; }
+
+.canvas-raspadinha.revelada {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- FASE 6: CONTADOR DE SÍLABAS ---------- */
+.opcoes-silabas {
+  background: transparent;
+  border-radius: 0;
+  padding: 2% 5%;
+}
+
+.opcao-silaba {
+  position: absolute;
+  top: 4.73%;
+  width: 24.88%;
+  height: 95.27%;
+  border: none;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  transition: transform .2s;
+  z-index: 3;
+}
+
+.opcao-silaba:nth-child(1) { left: 6.86%; }
+.opcao-silaba:nth-child(2) { left: 37.52%; }
+.opcao-silaba:nth-child(3) { left: 68.18%; }
+
+.opcao-silaba:hover { transform: scale(1.05); }
+
+.opcao-silaba span {
+  position: absolute;
+  top: 16.4%;
+  left: 19.5%;
+  width: 80.5%;
+  height: 42.7%;
+}
+
+.opcao-silaba > img,
+.opcao-silaba span img {
+  width: 42.7%;
+  height: auto !important;
+  aspect-ratio: auto;
+  display: block;
+  object-fit: initial;
+}
+
+.opcao-silaba > img {
+  position: absolute;
+  top: 16.4%;
+  left: 28.8%;
+}
+
+.opcao-silaba span img {
+  position: absolute;
+  top: 0;
+  width: 53.1%;
+}
+
+.opcao-silaba span img:nth-child(1) { left: 0; }
+.opcao-silaba span img:nth-child(2) { left: 26.7%; }
+
+.opcao-silaba:nth-child(3) span img:nth-child(2) { left: 11.6%; }
+.opcao-silaba:nth-child(3) span img:nth-child(3) { left: 26.7%; }
+
+.opcao-silaba strong {
+  position: absolute;
+  top: 44.7%;
+  left: 0;
+  width: 100%;
+  font-size: clamp(42px, 6.67vw, 128px);
+  font-weight: normal;
+}
+
+/* ---------- AVISO: PRÓXIMOS NÍVEIS ---------- */
+.painel-em-construcao {
+  position: absolute;
+  left: 15.94%;
+  top: 43.43%;
+  width: 67.65%;
+  height: 45.06%;
+  background: transparent;
+  z-index: 2;
+}
+
+/* ---------- FASE 7: MINI LABIRINTO ---------- */
+.area-labirinto {
+  position: absolute;
+  left: 15.94%;
+  top: 43.43%;
+  width: 67.65%;
+  height: 45.06%;
+  overflow: hidden;
+  background: transparent;
+  border-radius: 0;
+  z-index: 2;
+}
+
+.tabuleiro-labirinto {
+  position: absolute;
+  left: -25%;
+  top: -85%;
+  width: 150%;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.coelhinho-labirinto,
+.cenoura-labirinto {
+  position: absolute;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.coelhinho-labirinto {
+  left: 3.5%;
+  top: 27%;
+  width: 8%;
+  cursor: grab;
+  touch-action: none;
+  z-index: 2;
+}
+
+.coelhinho-labirinto.arrastando { cursor: grabbing; }
+
+.cenoura-labirinto {
+  right: 8.09%;
+  top: 33.89%;
+  width: 8%;
+}
+
+/* ---------- FASE 8: ALIMENTAR O MASCOTE ---------- */
+.painel-alimentar {
+  position: absolute;
+  left: 15.94%;
+  top: 43.43%;
+  width: 67.65%;
+  height: 45.06%;
+  background: transparent;
+  z-index: 2;
+}
+
+.urso-tobi,
+.fruta {
+  position: absolute;
+  z-index: 2;
+}
+
+.urso-tobi {
+  left: 40.99%;
+  top: 46.76%;
+  width: 17.55%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.fruta {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform .2s;
+}
+
+.fruta:hover { background: transparent; transform: scale(1.08); }
+.fruta img { width: 100%; height: 100%; object-fit: contain; }
+
+.fruta-maca {
+  left: 40.99%;
+  top: 71.02%;
+  width: 5.73%;
+  height: 11.11%;
+}
+
+.fruta-banana {
+  left: 52.34%;
+  top: 71.02%;
+  width: 6.20%;
+  height: 11.11%;
+}
+
+/* ---------- FASE 9: ESTOURAR BOLHAS ---------- */
+.painel-bolhas {
+  position: absolute;
+  left: 15.94%;
+  top: 43.43%;
+  width: 67.65%;
+  height: 45.06%;
+  background: transparent;
+  z-index: 2;
+}
+
+.bolha {
+  position: absolute;
+  z-index: 2;
+  width: 7.82%;
+  height: 13.89%;
+  border: none;
+  border-radius: 50%;
+  background: rgba(217, 217, 217, .2);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+  color: #d7784b;
+  cursor: pointer;
+  font-family: Inter, Arial, sans-serif;
+  font-size: clamp(18px, 1.67vw, 32px);
+  transition: transform .2s, opacity .25s;
+  animation-duration: 3.6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.bolha:hover { background: transparent; transform: scale(1.08); }
+.bolha-certa {
+  left: 26.72%;
+  top: 48.24%;
+  animation-name: flutuar-bolha-esquerda;
+}
+
+.bolha-errada {
+  left: 54.64%;
+  top: 48.24%;
+  animation-name: flutuar-bolha-direita;
+}
+
+@keyframes flutuar-bolha-esquerda {
+  0%, 100% { translate: 0 0; }
+  50% { translate: .35vw -1vh; }
+}
+
+@keyframes flutuar-bolha-direita {
+  0%, 100% { translate: 0 0; }
+  50% { translate: -.3vw .9vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bolha { animation: none; }
+}

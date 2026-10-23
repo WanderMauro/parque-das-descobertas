@@ -17,5 +17,10 @@ const Navegacao = {
     document.getElementById(this.telaAtual).classList.remove("ativa");
     nova.classList.add("ativa");
     this.telaAtual = idTela;
+
+    // Avisa as mecânicas que a nova tela já está visível.
+    document.dispatchEvent(new CustomEvent("telaalterada", {
+      detail: { id: idTela }
+    }));
   }
 };
