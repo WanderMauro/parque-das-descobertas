@@ -1,0 +1,189 @@
+/* Ultimate: painel do explorador, estrelas, conquistas, confete */
+#pd-fab{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:6px;min-height:52px;padding:8px 16px;border:3px dashed #fff8dc;border-radius:999px;background:#f2a93b url(../assets/img/ilustracoes/quadrado-claro.webp) center/cover;color:#5b3a12;font:900 18px/1 system-ui,sans-serif;box-shadow:0 4px 0 #b9741c,0 8px 18px #0004;cursor:pointer}
+#pd-fab:hover{transform:translateY(-2px)}
+#pd-overlay{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:14px;background:#12301f99;backdrop-filter:blur(4px)}
+#pd-overlay.open{display:flex}
+.pd-card{width:min(680px,100%);max-height:92vh;overflow:auto;padding:22px;border-radius:28px;border:4px dashed #fff8dc;background:#fff4cf url(../assets/img/ilustracoes/quadrado-claro.webp) center/cover;color:#4a3410;font-family:system-ui,sans-serif;box-shadow:0 10px 0 #0003,0 24px 50px #0006}
+.pd-card h2{margin:0 0 4px;font-size:clamp(22px,4vw,30px)}.pd-card h3{margin:18px 0 8px;font-size:18px}
+.pd-close{float:right;width:44px;height:44px;border-radius:50%;border:3px solid #fff8dc;background:#e86f4f;color:#fff;font:900 20px system-ui;cursor:pointer}
+.pd-bars{display:grid;gap:8px}.pd-bar{display:grid;grid-template-columns:90px 1fr 70px;align-items:center;gap:10px;font-weight:800}
+.pd-track{height:16px;border-radius:99px;background:#fff8;overflow:hidden;border:2px solid #fff}.pd-track i{display:block;height:100%;background:linear-gradient(90deg,#7ed957,#3fae49);border-radius:99px;transition:width .6s}
+.pd-badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.pd-badge{padding:10px;border-radius:18px;background:#fffbe8;text-align:center;font-size:13px;font-weight:800;box-shadow:inset 0 0 0 2px #fff,0 3px 0 #0002}
+.pd-badge b{display:block;font-size:34px}.pd-badge.off{filter:grayscale(1);opacity:.45}
+.pd-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;font-weight:800}
+.pd-row input[type=range]{width:50%}.pd-row input[type=checkbox]{width:26px;height:26px}
+.pd-danger{margin-top:12px;padding:10px 16px;border-radius:14px;border:2px solid #b3402a;background:#fff;color:#b3402a;font-weight:900;cursor:pointer}
+.pd-medal{position:fixed;left:50%;top:18px;z-index:90;transform:translate(-50%,-140%);transition:transform .5s cubic-bezier(.3,1.5,.5,1);padding:12px 22px;border-radius:999px;background:#fff4cf;border:3px dashed #f2a93b;font:900 18px system-ui;color:#5b3a12;box-shadow:0 8px 24px #0005}
+.pd-medal.show{transform:translate(-50%,0)}
+#pd-confetti{position:fixed;inset:0;z-index:70;pointer-events:none}
+@keyframes pd-pop{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+:focus-visible{outline:4px solid #2f7fe0;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){#pd-confetti{display:none}}
+@media (max-width:520px){.pd-bar{grid-template-columns:70px 1fr 56px}#pd-fab span{display:none}}
+
+/* ===== V20 · Estética: feltro com costuras, textura de lã e microanimações ===== */
+:root{--felt-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .15 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");--cream:#fff3d4;--cream2:#ffe7a8;--stitch:#d79a4a;--ink:#5a3a14;--leaf:#3f9a4a}
+.garden-screen .game-panel{background:var(--felt-noise),linear-gradient(180deg,#fff8e2,#fdeec4)!important;box-shadow:0 8px 0 #c9a06a,0 18px 34px #2b4a2a40!important;animation:pd-in .5s cubic-bezier(.2,1.3,.4,1) both}
+.garden-screen .activity-heading,.garden-screen .task-prompt{border:0!important;border-image:none!important;border-radius:24px!important;background:var(--felt-noise),linear-gradient(180deg,#fff9e6,var(--cream2))!important;box-shadow:0 5px 0 #c9a06a,0 10px 14px #6b45142e!important;outline:2.5px dashed var(--stitch);outline-offset:-8px}
+.garden-screen .activity-heading h1,.garden-screen .task-prompt-text{color:var(--ink)!important;text-shadow:0 2px 0 #fffbea;letter-spacing:.2px}
+.garden-screen .activity-heading h1{font-size:clamp(20px,2.6vw,30px)}
+.garden-screen :is(.option-card,.piece,.food-item,.memory-card,.plate-option,.tap-choice,.instrument-card,.word-audio){border:0!important;border-radius:22px!important;background:var(--felt-noise),linear-gradient(180deg,#fffdf2,#fff1c9)!important;box-shadow:0 5px 0 #d9c28d,0 9px 14px #5a3a1428!important;outline:2px dashed #e4c27f;outline-offset:-7px;transition:transform .18s cubic-bezier(.3,1.6,.5,1),box-shadow .18s,filter .18s}
+.garden-screen :is(.option-card,.piece,.food-item,.plate-option,.tap-choice,.instrument-card):hover:not(:disabled){transform:translateY(-4px) rotate(-1deg);filter:saturate(1.1)}
+.garden-screen :is(.option-card,.piece,.food-item,.plate-option,.tap-choice,.instrument-card):active:not(:disabled){transform:translateY(2px) scale(.97);box-shadow:0 2px 0 #d9c28d}
+.garden-screen :is(.option-card,.piece,.food-item,.tap-choice).selected,.garden-screen .food-item.chosen{background:var(--felt-noise),linear-gradient(180deg,#eaffd8,#bfeaa0)!important;outline-color:#4aa24f;box-shadow:0 5px 0 #7fb866,0 0 0 4px #9be07a80!important}
+.garden-screen :is(.wood-button,.soft-button){border:0!important;border-radius:999px!important;background:var(--felt-noise),linear-gradient(180deg,#ffd37a,#f2a93b)!important;color:#5b3a12!important;font-weight:900;text-shadow:0 1px 0 #fff6;box-shadow:0 5px 0 #b9741c,0 10px 16px #5a3a1430!important;outline:2px dashed #fff3c4;outline-offset:-6px;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}
+.garden-screen .soft-button{background:var(--felt-noise),linear-gradient(180deg,#fffaf0,#f7e3b6)!important;box-shadow:0 4px 0 #cfb27a,0 8px 12px #5a3a1425!important;outline-color:#e0b26c}
+.garden-screen :is(.wood-button,.soft-button):hover{transform:translateY(-2px)}.garden-screen :is(.wood-button,.soft-button):active{transform:translateY(3px)}
+.garden-screen .wood-button.primary{background:var(--felt-noise),linear-gradient(180deg,#8fdc6a,#4aa94f)!important;color:#fff!important;text-shadow:0 2px 0 #2d6e32;box-shadow:0 5px 0 #2f7c37,0 10px 16px #1f4d2440!important;outline-color:#d8f7c4}
+.garden-screen .feedback-line{border-radius:999px;padding:8px 18px;font-weight:900;transition:background .25s,transform .25s}
+.garden-screen .feedback-line.good{background:#dff7cc;color:#2c6e31;box-shadow:inset 0 0 0 2px #a8dd86;animation:pd-pop .4s}
+.garden-screen .feedback-line.bad{background:#ffe3d8;color:#a8402a;box-shadow:inset 0 0 0 2px #f4b09c;animation:pd-shake .35s}
+.garden-screen .stage-progress{height:14px;border-radius:99px;background:#fff9;box-shadow:inset 0 2px 4px #0003}
+.garden-screen .stage-progress-fill{border-radius:99px;background:repeating-linear-gradient(45deg,#7ed957 0 10px,#6cc84a 10px 20px)}
+.garden-screen .scene-icon{transition:transform .2s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 4px 3px #0003)}.garden-screen .scene-icon:hover{transform:scale(1.1) rotate(-4deg)}
+.garden-screen .finish-mascot,.garden-screen .feed-tobi{animation:pd-bob 2.6s ease-in-out infinite}
+.garden-screen .page-title{text-shadow:0 3px 0 #fff8,0 6px 10px #0002}
+.level-card,.garden-screen [data-level]{background-image:var(--felt-noise),var(--lv-bg,none);outline:2.5px dashed #ffffffb0;outline-offset:-9px;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+[data-level]:hover{transform:translateY(-6px) rotate(-.8deg)}
+#pd-fab{left:max(12px,env(safe-area-inset-left));right:auto;min-height:44px;padding:6px 14px;font-size:16px;background:var(--felt-noise),linear-gradient(180deg,#ffd37a,#f2a93b);outline:2px dashed #fff3c4;outline-offset:-6px;border:0;transition:transform .2s}
+.pd-card{background:var(--felt-noise),linear-gradient(180deg,#fff8e2,#fdeec4);animation:pd-in .4s cubic-bezier(.2,1.3,.4,1) both;position:relative}
+.pd-card::after{content:"";position:absolute;inset:8px;border:2.5px dashed #e0b26c;border-radius:22px;pointer-events:none}
+.pd-badge{background:var(--felt-noise),#fffbe8;outline:2px dashed #e4c27f;outline-offset:-6px;box-shadow:0 4px 0 #d9c28d}
+@keyframes pd-in{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pd-shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes pd-bob{50%{transform:translateY(-8px) rotate(1.5deg)}}
+/* ajustes finos */
+.garden-screen .activity-heading{min-height:96px;padding:14px 26px}
+.garden-screen .activity-heading h1{line-height:1.15;margin:0 0 4px}
+.garden-screen .task-prompt{min-height:58px}
+.garden-screen :is(.soft-button,.wood-button){outline-offset:-4px;padding-block:10px}
+.garden-screen .inline-level-picker :is(button,.pill){outline:0!important;border-radius:999px!important}
+.garden-screen .answers-grid{display:flex!important;flex-wrap:wrap;justify-content:center;gap:18px}
+.garden-screen .answers-grid .option-card{flex:0 1 250px;min-height:190px;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px}
+.garden-screen .option-card .option-art{font-size:clamp(52px,7vw,84px);line-height:1;position:static!important;display:flex;align-items:center;justify-content:center}
+.garden-screen .option-card .option-label{position:static!important;font-size:clamp(17px,2vw,22px);font-weight:900;color:var(--ink)}
+.garden-screen .instrument-controls{display:flex;justify-content:center;gap:18px}
+.garden-screen .instrument-card{flex:0 1 220px;min-height:130px;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.garden-screen .instrument-card .inst-icon{font-size:54px;line-height:1}
+.garden-screen .instrument-card span:last-child{font-size:16px;font-weight:900;color:var(--leaf)}
+@media (max-width:600px){.garden-screen .activity-heading h1{font-size:clamp(15px,4.6vw,19px);overflow-wrap:normal;word-break:normal;hyphens:auto;letter-spacing:0}
+.garden-screen .activity-heading{padding:12px 16px;min-height:0}
+.garden-screen .activity-copy :is(p,small,span){white-space:normal!important;text-overflow:clip!important;overflow:visible!important;-webkit-line-clamp:unset!important}
+.garden-screen .answers-grid .option-card{flex-basis:140px;min-height:140px}}
+
+/* ===== V21 · Pequenos leitores (5–7 anos) ===== */
+.garden-screen .task-prompt-text,.garden-screen .task-prompt span{font-size:clamp(20px,2.6vw,30px)!important;line-height:1.25}
+.garden-screen .activity-heading h1{font-size:clamp(24px,3.2vw,38px)}
+.garden-screen .prompt-audio,.garden-screen .activity-title-row button{width:56px;height:56px;animation:pd-wiggle 3s ease-in-out infinite}
+.garden-screen .feedback-line,.garden-screen .match-line{font-size:clamp(16px,1.9vw,22px)}
+.pd-hint{animation:pd-hint 1s ease-in-out infinite!important;outline:5px solid #ffcf33!important;outline-offset:3px!important;z-index:5;position:relative;box-shadow:0 0 0 10px #ffe27a99,0 0 28px #ffd23f!important}
+.pd-tobi{position:fixed;left:16px;bottom:76px;z-index:85;display:flex;align-items:center;gap:10px;max-width:min(78vw,360px);padding:8px 18px 8px 8px;border-radius:999px;background:#fffbe8;border:3px dashed #7fc96a;color:#2f6e34;font:900 clamp(16px,2.4vw,22px) system-ui;box-shadow:0 8px 20px #0004;transform:translateX(-130%);transition:transform .45s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
+.pd-tobi.bad{border-color:#f0a58f;color:#a8402a}.pd-tobi.show{transform:none}
+.pd-tobi img{width:56px;height:56px;object-fit:contain;animation:pd-bob 1.4s ease-in-out infinite}
+@keyframes pd-hint{50%{transform:scale(1.07)}}
+@keyframes pd-wiggle{0%,90%,100%{transform:none}93%{transform:rotate(-8deg)}96%{transform:rotate(8deg)}}
+.garden-screen .task-prompt{padding-left:clamp(84px,8vw,104px)!important;padding-right:clamp(18px,3vw,36px)!important}
+.garden-screen .task-prompt .prompt-audio{left:14px}
+
+/* ===== V22 · Layout compacto, sem estrelas, animações do jogo sempre ativas ===== */
+body.pd-calm :is(.finish-mascot,.feed-tobi,.prompt-audio,.activity-title-row button,.pd-tobi img){animation-duration:3.5s!important}
+.score-pill{display:none!important}
+.garden-screen .game-panel{padding-block:10px!important}
+.garden-screen .activity-heading{min-height:0!important;padding:8px 20px!important;margin-bottom:8px!important;gap:12px}
+.garden-screen .activity-heading h1{font-size:clamp(18px,2.1vw,26px)!important;line-height:1.1!important;margin:0!important}
+.garden-screen .activity-heading :is(p,small){font-size:clamp(12px,1.3vw,15px)!important;margin:2px 0 0!important}
+.garden-screen .task-prompt{min-height:0!important;padding-block:6px!important;padding-left:clamp(70px,7vw,88px)!important}
+.garden-screen .task-prompt-text,.garden-screen .task-prompt span{font-size:clamp(16px,1.9vw,23px)!important}
+.garden-screen .prompt-audio,.garden-screen .activity-title-row button{width:44px!important;height:44px!important}
+.garden-screen .feedback-line,.garden-screen .match-line{font-size:clamp(13px,1.5vw,17px)!important;padding-block:5px!important;margin-block:4px!important}
+.garden-screen .game-actions .soft-button,.garden-screen .game-actions .wood-button{padding:7px 16px!important}
+.garden-screen .plate-option,.garden-screen .answers-grid .option-card{min-height:0!important}
+.garden-screen .answers-grid .option-card{flex:0 1 220px;padding:10px;gap:6px}
+.garden-screen .option-card .option-art{font-size:clamp(44px,6vh,68px)}
+.garden-screen .instrument-card{min-height:0!important;flex-basis:190px}
+.garden-screen .instrument-card .inst-icon{font-size:42px}
+.garden-screen .task-prompt .prompt-audio{top:50%!important;transform:translateY(-50%)!important;animation:none!important;width:40px!important;height:40px!important}
+.garden-screen .plate-option{justify-content:center;gap:6px;padding:8px}
+
+/* ===== V23 ===== */
+.garden-screen .game-panel{animation:none!important}   /* evitava piscar a cada toque */
+.dots-svg :is(line,path){vector-effect:non-scaling-stroke}
+.dots-svg line{stroke-width:6px!important}
+.garden-screen .activity-heading h1{font-size:clamp(15px,1.6vw,20px)!important}
+.garden-screen .activity-heading :is(p,small){font-size:clamp(11px,1.1vw,13px)!important}
+.garden-screen .activity-heading{padding:6px 18px!important;margin-bottom:6px!important}
+.garden-screen .activity-heading .activity-art{width:40px;height:40px}
+.garden-screen .activity-title-row button{width:34px!important;height:34px!important}
+.garden-screen .task-prompt-text,.garden-screen .task-prompt span{font-size:clamp(15px,1.6vw,20px)!important}
+
+/* ===== V24 · Setas do labirinto grandes para toque ===== */
+.garden-screen.game-scene .maze-controls{--k:clamp(64px,10.5vh,104px);display:grid!important;grid-template-columns:repeat(3,var(--k))!important;grid-template-rows:repeat(2,var(--k))!important;gap:12px!important;justify-content:center;margin:8px auto!important}
+.garden-screen.game-scene .maze-controls button{width:var(--k)!important;height:var(--k)!important;min-width:0;padding:0!important;font-size:calc(var(--k)*.5)!important;line-height:1;border-radius:26px!important;display:grid;place-items:center;touch-action:manipulation;user-select:none;-webkit-user-select:none;box-shadow:0 6px 0 #b98a44,0 10px 16px #5a3a1430!important}
+.garden-screen.game-scene .maze-controls button:active{transform:translateY(5px);box-shadow:0 1px 0 #b98a44!important;background:#bfeaa0!important}
+.garden-screen.game-scene .maze-controls [data-dir="up"]{grid-column:2;grid-row:1}
+.garden-screen.game-scene .maze-controls [data-dir="left"]{grid-column:1;grid-row:2}
+.garden-screen.game-scene .maze-controls [data-dir="down"]{grid-column:2;grid-row:2}
+.garden-screen.game-scene .maze-controls [data-dir="right"]{grid-column:3;grid-row:2}
+.garden-screen.game-scene .maze-layout{align-items:center!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto!important;gap:clamp(12px,3vw,40px)!important;justify-content:center}
+.garden-screen.game-scene .maze-guide{padding:10px 14px!important}
+.garden-screen.game-scene .maze-guide :is(p,small){font-size:clamp(12px,1.3vw,15px)!important}
+@media (max-width:700px),(max-aspect-ratio:1/1){.garden-screen.game-scene .maze-layout{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto!important}}
+.garden-screen.game-scene .maze-controls{gap:8px!important;margin:4px auto!important}
+.garden-screen.game-scene .maze-guide{box-shadow:0 4px 0 #c9a06a!important;background:var(--felt-noise),linear-gradient(180deg,#fff9e6,#ffe7a8)!important;border-radius:22px!important}
+.garden-screen.game-scene .maze-guide>*{margin-block:3px!important}
+@media (max-width:700px),(max-aspect-ratio:1/1){.garden-screen.game-scene .maze-layout>*{justify-self:center}}
+
+/* ===== V25 · Correções por fase ===== */
+/* bolhas maiores para dedos pequenos */
+.garden-screen.game-scene .moving-bubble{width:clamp(66px,12vh,100px)!important;height:clamp(66px,12vh,100px)!important}
+.garden-screen.game-scene .bubble-label{font-size:clamp(22px,4vh,34px)!important}
+/* jogo da memória: carta ocupa o cartão, sem moldura dupla */
+.garden-screen .memory-card{background:none!important;box-shadow:none!important;outline:0!important;padding:0!important;overflow:visible}
+.garden-screen .memory-card .memory-card-back{width:100%;height:100%;object-fit:contain;border-radius:18px;filter:drop-shadow(0 5px 0 #0003)}
+.garden-screen .memory-card.flipped{background:var(--felt-noise),linear-gradient(180deg,#fffdf2,#fff1c9)!important;box-shadow:0 5px 0 #d9c28d!important;border-radius:20px!important}
+/* arrastar e soltar: objetos maiores */
+.garden-screen .drag-items :is(button,.drag-item){min-height:clamp(70px,13vh,110px);font-size:clamp(14px,1.6vw,19px)}
+.garden-screen .drag-items img,.garden-screen .drag-items .saved-game-art{width:clamp(44px,8vh,72px);height:clamp(44px,8vh,72px);object-fit:contain}
+.garden-screen .drag-touch-hint{font-size:clamp(11px,1.2vw,14px)}
+/* carinhas: rosto menor + área rolável, sem sobrepor a mensagem */
+.garden-screen.mechanic-emotion .emotion-face{width:clamp(96px,16vh,140px)!important;height:clamp(96px,16vh,140px)!important}
+.garden-screen.mechanic-emotion .play-area,.garden-screen.mechanic-puzzle .play-area{overflow-y:auto!important;min-height:0}
+.garden-screen.mechanic-emotion .piece-tray{gap:10px}
+.garden-screen.mechanic-emotion .emotion-piece{min-height:0;padding:6px 10px}
+.garden-screen.mechanic-emotion .emotion-option-art svg{width:clamp(44px,8vh,64px);height:auto}
+/* quebra-cabeça: peças menores, tudo visível */
+.garden-screen.mechanic-puzzle .puzzle-pieces img,.garden-screen.mechanic-puzzle .puzzle-piece img{max-height:clamp(70px,16vh,130px);width:auto;object-fit:contain}
+.garden-screen.mechanic-puzzle .puzzle-reference{min-height:0!important;padding:4px 10px!important}
+.garden-screen.mechanic-puzzle .puzzle-reference img{height:clamp(40px,7vh,60px)!important}
+.garden-screen.mechanic-puzzle .image-puzzle-grid{height:clamp(170px,calc(100vh - 400px),470px)!important;width:auto!important;max-width:100%;margin-inline:auto}
+.garden-screen.mechanic-puzzle .puzzle-work,.garden-screen.mechanic-puzzle .puzzle-pieces{min-height:0!important;height:auto!important}
+.garden-screen.mechanic-puzzle .puzzle-helper{display:none!important}
+
+/* V26 · Modo calmo: labels longas não são cortadas nem empurram o checkbox. */
+#pd-overlay { box-sizing: border-box; overflow-y: auto; }
+.pd-card { box-sizing: border-box; min-width: 0; }
+.pd-row { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; width: 100%; }
+.pd-row-label { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+.pd-row input[type="checkbox"] { flex: 0 0 26px; width: 26px; min-width: 26px; height: 26px; min-height: 26px; margin: 0; }
+@media (max-width: 520px) {
+  .pd-row { gap: 9px; font-size: 14px; }
+  .pd-row-label { flex-basis: 0; }
+}
+
+/* V27 · Modo de animações lentas: durations mais longas que as originais. */
+body.pd-calm .home-mascot { animation-duration: 7s !important; }
+body.pd-calm .success-celebration span { animation-duration: 2.4s !important; }
+body.pd-calm .dot-button.current { animation-duration: 2.6s !important; }
+body.pd-calm .maze-cell.maze-player img { animation-duration: 1.2s !important; }
+body.pd-calm .moving-bubble { animation-duration: 14s !important; }
+body.pd-calm .pd-tobi img { animation-duration: 2.8s !important; }
+body.pd-calm .pd-hint { animation-duration: 2.4s !important; }
+body.pd-calm :is(.finish-mascot,.feed-tobi,.prompt-audio,.activity-title-row button) { animation-duration: 3.5s !important; }
+body.pd-calm :is(.home-mascot,.success-celebration span,.dot-button.current,.maze-cell.maze-player img,.moving-bubble,.pd-tobi img,.pd-hint,.finish-mascot,.feed-tobi) {
+  animation-timing-function: ease-in-out !important;
+}
+body.pd-calm :is(button,.option-card,.home-level-card,.spotlight-shade,.pd-tobi,.finish-mascot,.feed-tobi) {
+  transition-duration: .4s !important;
+}
+body.pd-calm #pd-confetti { display:none !important; }
