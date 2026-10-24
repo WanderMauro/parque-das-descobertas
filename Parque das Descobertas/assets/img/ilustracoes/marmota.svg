@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 190" role="img" aria-labelledby="title desc">
+  <title id="title">Marmota do Parque das Descobertas</title>
+  <desc id="desc">Uma marmota marrom simpática, com focinho bege, bochechas rosadas e patinhas levantadas.</desc>
+  <defs>
+    <radialGradient id="fur" cx="32%" cy="18%" r="82%"><stop offset="0" stop-color="#dca45c"/><stop offset=".62" stop-color="#a96935"/><stop offset="1" stop-color="#754321"/></radialGradient>
+    <radialGradient id="muzzle" cx="40%" cy="20%" r="90%"><stop offset="0" stop-color="#fff0c8"/><stop offset="1" stop-color="#e5bd83"/></radialGradient>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7d9a0"/><stop offset="1" stop-color="#dca56a"/></linearGradient>
+  </defs>
+  <ellipse cx="90" cy="177" rx="58" ry="9" fill="#4b3b2b" opacity=".16"/>
+  <ellipse cx="90" cy="139" rx="57" ry="48" fill="url(#fur)" stroke="#74411e" stroke-width="4"/>
+  <ellipse cx="90" cy="145" rx="32" ry="34" fill="url(#belly)"/>
+  <ellipse cx="47" cy="146" rx="20" ry="27" transform="rotate(22 47 146)" fill="url(#fur)" stroke="#74411e" stroke-width="3"/>
+  <ellipse cx="133" cy="146" rx="20" ry="27" transform="rotate(-22 133 146)" fill="url(#fur)" stroke="#74411e" stroke-width="3"/>
+  <ellipse cx="37" cy="169" rx="19" ry="10" transform="rotate(-8 37 169)" fill="#c58a50" stroke="#74411e" stroke-width="3"/>
+  <ellipse cx="143" cy="169" rx="19" ry="10" transform="rotate(8 143 169)" fill="#c58a50" stroke="#74411e" stroke-width="3"/>
+  <ellipse cx="90" cy="75" rx="59" ry="56" fill="url(#fur)" stroke="#74411e" stroke-width="4"/>
+  <circle cx="49" cy="42" r="19" fill="#965a2d" stroke="#74411e" stroke-width="4"/>
+  <circle cx="131" cy="42" r="19" fill="#965a2d" stroke="#74411e" stroke-width="4"/>
+  <circle cx="49" cy="42" r="9" fill="#e6a17a"/><circle cx="131" cy="42" r="9" fill="#e6a17a"/>
+  <ellipse cx="90" cy="84" rx="43" ry="35" fill="url(#muzzle)"/>
+  <ellipse cx="69" cy="70" rx="7" ry="9" fill="#37271b"/><ellipse cx="111" cy="70" rx="7" ry="9" fill="#37271b"/>
+  <circle cx="67" cy="67" r="2.3" fill="#fff"/><circle cx="109" cy="67" r="2.3" fill="#fff"/>
+  <ellipse cx="90" cy="85" rx="11" ry="8" fill="#4c2d20"/>
+  <path d="M90 92 Q84 101 76 95 M90 92 Q96 101 104 95" fill="none" stroke="#71402a" stroke-width="3.5" stroke-linecap="round"/>
+  <ellipse cx="58" cy="91" rx="10" ry="6" fill="#edaa94" opacity=".85"/><ellipse cx="122" cy="91" rx="10" ry="6" fill="#edaa94" opacity=".85"/>
+  <path d="M45 88 L25 83 M46 95 L25 98 M135 88 L155 83 M134 95 L155 98" stroke="#8a5734" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="66" cy="121" rx="15" ry="11" fill="#bd7e46" stroke="#74411e" stroke-width="3"/>
+  <ellipse cx="114" cy="121" rx="15" ry="11" fill="#bd7e46" stroke="#74411e" stroke-width="3"/>
+</svg>
