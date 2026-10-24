@@ -1,5 +1,0 @@
-Coloque aqui os sons do jogo:
-  musica-fundo.mp3  -> música de fundo (toca em loop)
-  acerto.mp3        -> som ao acertar
-  erro.mp3          -> som ao errar
-Se os arquivos não existirem, o jogo funciona normalmente, só sem som.
