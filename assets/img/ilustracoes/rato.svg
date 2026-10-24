@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">Rato</title><desc id="desc">Um ratinho cinza e simpático com orelhas rosadas, bigodes e cauda curva.</desc>
+  <defs><linearGradient id="grey" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#dfe4e4"/><stop offset="1" stop-color="#8b969b"/></linearGradient><radialGradient id="pink" cx="40%" cy="25%" r="80%"><stop offset="0" stop-color="#ffd9d5"/><stop offset="1" stop-color="#e98d94"/></radialGradient></defs>
+  <path d="M115 137 C150 146 165 127 156 112 C149 101 132 108 138 119 C141 124 147 120 145 117" fill="none" stroke="#d98b91" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="90" cy="125" rx="46" ry="39" fill="url(#grey)" stroke="#626f74" stroke-width="4"/>
+  <ellipse cx="61" cy="42" rx="27" ry="28" fill="url(#grey)" stroke="#626f74" stroke-width="4"/><ellipse cx="119" cy="42" rx="27" ry="28" fill="url(#grey)" stroke="#626f74" stroke-width="4"/>
+  <ellipse cx="61" cy="43" rx="15" ry="17" fill="url(#pink)"/><ellipse cx="119" cy="43" rx="15" ry="17" fill="url(#pink)"/>
+  <ellipse cx="90" cy="79" rx="51" ry="48" fill="url(#grey)" stroke="#626f74" stroke-width="4"/>
+  <ellipse cx="71" cy="74" rx="7" ry="9" fill="#283940"/><ellipse cx="109" cy="74" rx="7" ry="9" fill="#283940"/><circle cx="69" cy="71" r="2.5" fill="#fff"/><circle cx="107" cy="71" r="2.5" fill="#fff"/>
+  <ellipse cx="90" cy="99" rx="25" ry="18" fill="#f5e4db"/><ellipse cx="90" cy="91" rx="9" ry="7" fill="#d96e7d"/>
+  <path d="M90 97 Q85 105 79 100 M90 97 Q95 105 101 100" fill="none" stroke="#704c4e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M69 94 L37 88 M68 101 L36 104 M111 94 L143 88 M112 101 L144 104" stroke="#707c80" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="68" cy="157" rx="17" ry="8" fill="#f0b9b8"/><ellipse cx="112" cy="157" rx="17" ry="8" fill="#f0b9b8"/>
+</svg>

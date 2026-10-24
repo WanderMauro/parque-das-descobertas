@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-labelledby="title desc">
+  <title id="title">Avião</title>
+  <desc id="desc">Avião de brinquedo colorido, azul, amarelo e laranja, visto de lado.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e5fbff"/><stop offset=".5" stop-color="#79d5ed"/><stop offset="1" stop-color="#3f9ec7"/></linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffdf6b"/><stop offset="1" stop-color="#f39c3c"/></linearGradient>
+  </defs>
+  <ellipse cx="100" cy="136" rx="70" ry="7" fill="#315d6b" opacity=".15"/>
+  <path d="M22 82 L69 79 L96 35 Q100 29 107 34 L119 78 L174 73 Q186 74 188 82 Q188 89 174 92 L119 95 L109 119 Q104 126 96 121 L72 96 L25 94 Q14 91 15 86 Q15 82 22 82Z" fill="url(#wing)" stroke="#b86c35" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M26 78 Q75 73 119 78 L170 76 Q187 77 190 85 Q187 93 169 94 L115 92 Q75 98 26 92 Q13 90 13 85 Q13 80 26 78Z" fill="url(#body)" stroke="#357fa4" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M25 78 L44 61 L53 78 Z" fill="#f28d43" stroke="#b86c35" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M25 92 L44 106 L53 93 Z" fill="#f28d43" stroke="#b86c35" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#fff8db" stroke="#397fa0" stroke-width="2.5"><circle cx="76" cy="84" r="5.8"/><circle cx="93" cy="84" r="5.8"/><circle cx="110" cy="84" r="5.8"/><circle cx="127" cy="84" r="5.8"/></g>
+  <path d="M175 71 L175 100 M183 73 L183 98" stroke="#e5793d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M17 85 L7 78 L7 94 Z" fill="#f5c64a" stroke="#b86c35" stroke-width="3" stroke-linejoin="round"/>
+</svg>
