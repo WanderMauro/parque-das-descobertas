@@ -5,11 +5,6 @@
 ### 🌈 Aprender, brincar e descobrir!
 
 **Um jogo educativo e interativo desenvolvido para crianças de 5 a 7 anos.**
-
-![Faixa etária](https://img.shields.io/badge/idade-5%20a%207%20anos-ffb703?style=for-the-badge)
-![Atividades](https://img.shields.io/badge/desafios-60-36b6c5?style=for-the-badge)
-![Tecnologias](https://img.shields.io/badge/HTML%20%7C%20CSS%20%7C%20JavaScript-7b61ff?style=for-the-badge)
-
 *Um parque de atividades para explorar habilidades de maneira lúdica, respeitando o ritmo de cada criança.*
 
 </div>
@@ -146,18 +141,6 @@ O jogo busca **estimular**:
 
 Este projeto é um **recurso lúdico complementar** e não substitui o acompanhamento pedagógico.
 
-## 🔎 Estado do projeto e próximos passos
-
-O projeto passou por revisões de código e ajustes de interface, como redução de repetições em perguntas, melhoria de instruções e ajustes no ritmo de algumas animações.
-
-**Testes ainda recomendados antes de uso escolar amplo:** partidas completas em diferentes navegadores e dispositivos; validação de áudio, toque e acessibilidade; observação com crianças de 5, 6 e 7 anos; e avaliação da duração real das atividades.
-
-Melhorias futuras possíveis incluem salvar a atividade exata de uma partida interrompida e medir o tempo de cada desafio, sem aplicar pressão à criança.
-
-## 📷 Imagens do jogo
-
-> Adicione capturas de tela reais do jogo nesta seção quando estiverem disponíveis. Exemplos: tela inicial, escolha de dificuldade e uma atividade. Evite publicar fotos de crianças sem autorização.
-
 ## 💖 Considerações finais
 
 O **Parque das Descobertas** foi pensado para transformar pequenas descobertas em momentos de aprendizagem. Mais importante do que terminar rapidamente é **explorar, brincar e aprender no próprio ritmo**.
@@ -167,5 +150,7 @@ O **Parque das Descobertas** foi pensado para transformar pequenas descobertas e
 ### 🎠 Que cada desafio seja uma nova descoberta!
 
 **Feito com dedicação à educação e à aprendizagem lúdica.** 🌟
+
+### Desenvolvido por: Nicoly Benvenutti Bourdot, Wander Luiz Mauro de Souza, Brendon Teske e Manuela.
 
 </div>
